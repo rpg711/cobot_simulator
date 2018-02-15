@@ -77,7 +77,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 # FIND_PACKAGE(OpenGL REQUIRED)
 # FIND_PACKAGE(GLUT REQUIRED)
 # FIND_PACKAGE(USB REQUIRED)
-FIND_PACKAGE(Lua51 REQUIRED)
+# FIND_PACKAGE(Lua51 REQUIRED)
 # FIND_PACKAGE(SDL REQUIRED)
 # FIND_PACKAGE(SDL_ttf REQUIRED)
 # FIND_PACKAGE(Ceres REQUIRED)
@@ -173,11 +173,10 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/cobot_sim)
 # add_subdirectory(${PROJECT_SOURCE_DIR}/src/move_node)
 
 # INCLUDE_DIRECTORIES(${GTK2_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
+# INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
 # INCLUDE_DIRECTORIES(${USB_INCLUDE_DIR})
 #
 SET(libs roslib roscpp popt glog
-    ${LUA_LIBRARIES}
     ${BUILD_SPECIFIC_LIBRARIES} rosbag X11)
 #
 # SET(HW_SRCS
@@ -219,7 +218,7 @@ SET(SHARED_SRCS
   src/shared/util/proghelp.cc
 #   src/shared/util/pthread_utils.cpp
   src/shared/util/terminal_utils.cpp
-  src/shared/util/configreader.cpp
+#   src/shared/util/configreader.cpp
   src/shared/util/watch_files.cpp
 )
 #
