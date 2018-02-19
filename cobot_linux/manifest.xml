@@ -11,11 +11,11 @@
   <depend package="std_msgs"/>
   <depend package="nav_msgs"/>
   <depend package="sensor_msgs"/>
+  <depend package="geometry_msgs"/>
   <depend package="rospy"/>
   <depend package="roscpp"/>
   <depend package="cobot_msgs"/>
   <depend package="rosbag"/>
-<!--   <depend package="evid70_camera"/> -->
   <depend package="visualization_msgs"/>
   <depend package="tf"/>
   <depend package="rospy"/>
@@ -23,7 +23,4 @@
   <depend package="pcl_ros"/>
   <depend package="cv_bridge"/>
 
-
 </package>
-
-

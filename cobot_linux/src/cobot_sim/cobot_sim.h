@@ -29,12 +29,14 @@
 #include "vector_map.h"
 #include <ros/ros.h>
 #include <ros/package.h>
-// #include <nav_msgs/Odometry.h>
+#include <tf/transform_datatypes.h>
+#include <visualization_msgs/Marker.h>
+#include <nav_msgs/Odometry.h>
 #include "cobot_msgs/CobotDriveMsg.h"
-// #include "cobot_msgs/CobotOdometryMsg.h"
-// #include "cobot_msgs/CobotLocalizationMsg.h"
 #include "sensor_msgs/LaserScan.h"
-// #include <tf/transform_broadcaster.h>
+#include "geometry_msgs/Point32.h"
+#include "geometry_msgs/PoseStamped.h"
+#include <tf/transform_broadcaster.h>
 
 #ifndef COBOT_SIM_H
 #define COBOT_SIM_H
@@ -42,35 +44,55 @@
 using namespace std;
 
 class CobotSim{
-  vector2d loc, vel;
-  double ang_vel;
+  vector2d loc;
+  double vel;
+  double angVel;
   AccelLimits transLimits, rotLimits;
-  ros::Subscriber drive_sub;
-//   ros::Subscriber localizationSubscriber;
-//   ros::Publisher odometryPublisher;
-//   ros::Publisher odometryTwistPublisher;
-  ros::Publisher laserPublisher;
-//   tf::TransformBroadcaster *br;
 
-  /// wheel orientations
+  ros::Subscriber driveSubscriber;
+
+  ros::Publisher odometryTwistPublisher;
+  ros::Publisher laserPublisher;
+  ros::Publisher mapLinesPublisher;
+  ros::Publisher posMarkerPublisher;
+  ros::Publisher dirMarkerPublisher;
+  tf::TransformBroadcaster *br;
+
+  // wheel orientations
   vector2d w0,w1,w2,w3;
-  /// Radius of base
+  // Radius of base
   static const double baseRadius;
+  // "height" of robot
+  static const double robotHeight;
+
   sensor_msgs::LaserScan scanDataMsg;
-//   nav_msgs::Odometry odometryTwistMsg;
+  nav_msgs::Odometry odometryTwistMsg;
+
   VectorMap* currentMap;
   vector<VectorMap> maps;
   int curMapIdx;
+
+  visualization_msgs::Marker lineListMarker;
+  visualization_msgs::Marker robotPosMarker;
+  visualization_msgs::Marker robotDirMarker;
+
+  static const float startX;
+  static const float startY;
   vector2f curLoc;
+
+  static const float startAngle;
   float curAngle;
-  double t_last_cmd;
+
+  double tLastCmd;
 private:
-  void cobotDriveCallback(const cobot_msgs::CobotDriveMsgConstPtr& msg);
-//   void localizationCallback(const cobot_msgs::CobotLocalizationMsgConstPtr& msg);
-//   void publishOdometry();
-  void publishLaser();
-//   void publishTransform();
+  void initVizMarker(visualization_msgs::Marker& vizMarker, string ns, int id, string type, geometry_msgs::PoseStamped p, geometry_msgs::Point32 scale, double duration, vector<float> color);
+  void initCobotSimVizMarkers();
   void loadAtlas();
+  void cobotDriveCallback(const cobot_msgs::CobotDriveMsgConstPtr& msg);
+  void publishOdometry();
+  void publishLaser();
+  void publishVisualizationMarkers();
+  void publishTransform();
 
 public:
   CobotSim();

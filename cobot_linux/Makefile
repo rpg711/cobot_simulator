@@ -11,7 +11,7 @@ include $(shell rospack find mk)/cmake.mk
 C_compiler=/usr/bin/gcc
 CXX_compiler=/usr/bin/g++
 
-#acceptable buildTypes: Release/Debug/Profile
+# acceptable buildTypes: Release/Debug/Profile
 buildType=Release
 # buildType=Debug
 
@@ -30,13 +30,17 @@ research: build_research
 calibration: build_calibration
 
 build/CMakeLists.txt.build: CMakeLists.txt
+	rm -rf build
+	rm -rf bin
+	mkdir build
+	mkdir bin
 	cp CMakeLists.txt $(buildDir)/CMakeLists.txt.build
 	cd $(buildDir) && cmake -DCMAKE_BUILD_TYPE=$(buildType) \
 		-DCMAKE_CXX_COMPILER=$(CXX_compiler) \
 		-DCMAKE_C_COMPILER=$(C_compiler) \
 		-Wno-dev ..
 
-messages: messages_cobot messages_camera cmake
+messages: messages_cobot
 
 build:	build/CMakeLists.txt.build
 	$(MAKE) --no-print-directory -C $(buildDir)
@@ -64,4 +68,3 @@ messages_cobot:
 
 messages_camera:
 	cd ../cobot_python/evid70_camera/ && make --no-print-directory
-

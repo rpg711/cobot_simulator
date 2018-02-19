@@ -1,13 +1,7 @@
 Header header
 
-float32 velocity_x
-float32 velocity_y
-float32 velocity_r
+# linear velocity command in the forward direction [m/s]
+float32 v
 
-float32 transMaxAcceleration
-float32 transMaxDeceleration
-float32 transMaxVelocity
-
-float32 rotMaxAcceleration
-float32 rotMaxDeceleration
-float32 rotMaxVelocity
+# angular velocity command [rad/s]
+float32 w

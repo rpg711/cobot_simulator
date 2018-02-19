@@ -21,11 +21,9 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <ros/ros.h>
 #include "proghelp.h"
 #include "timer.h"
-#include <ros/ros.h>
-#include "cobot_msgs/CobotDriveMsg.h"
-// #include "cobot_msgs/CobotOdometryMsg.h"
 #include "popt_pp.h"
 #include "cobot_sim.h"
 
@@ -34,17 +32,16 @@ using namespace cobot_msgs;
 bool run = true;
 CobotSim *cobotSim;
 
-
 void timerEvent( int sig ) {
   const bool debugTimer = false;
   static double tLast = GetTimeSec();
-  if(debugTimer){
+  if(debugTimer) {
     printf( "dT = %f\n", GetTimeSec()-tLast );
     tLast = GetTimeSec();
   }
   cobotSim->run();
 
-  if( !run ){
+  if( !run ) {
     CancelTimerInterrupts();
   }
 }
@@ -62,24 +59,22 @@ int main(int argc, char **argv) {
   // parse options
   POpt popt(NULL,argc,(const char**)argv,options,0);
   int c;
-  while((c = popt.getNextOpt()) >= 0){
-  }
+  while((c = popt.getNextOpt()) >= 0) { }
 
   cobotSim = new CobotSim();
 
   InitHandleStop(&run);
   AccelLimits transLimits, rotLimits;
-  transLimits.set(1.0,2.0,2.0);
-  rotLimits.set(1.0*M_PI,1.0*M_PI,1.5*M_PI);
+  transLimits.set(0.5,0.5,0.5);
+  rotLimits.set(2.0,2.0,1.5);
   cobotSim->setLimits(transLimits, rotLimits);
-
 
   ros::init(argc, argv, "Cobot_Simulator");
   ros::NodeHandle n;
   cobotSim->init(n);
 
   //Interrupt frequency of 20 Hz
-  if(!SetTimerInterrupt(50000, &timerEvent)){
+  if(!SetTimerInterrupt(50000, &timerEvent)) {
     TerminalWarning( "Unable to set timer interrupt\n" );
     return(1);
   }
@@ -87,8 +82,9 @@ int main(int argc, char **argv) {
   // main loop
   while(ros::ok() && run){
     ros::spinOnce();
-    Sleep(0.01);
+    Sleep(0.05);
   }
+
   printf("closing.\n");
   CancelTimerInterrupts();
   delete cobotSim;
