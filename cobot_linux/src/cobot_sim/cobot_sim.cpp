@@ -78,7 +78,8 @@ void CobotSim::init(ros::NodeHandle& n) {
  * @param id          id of marker (int) - must be unique for each marker;
  *                      0, 1, and 2 are already used
  * @param type        specifies type of marker (string); available options:
- *                      arrow (default), cube, sphere, cylinder, linelist
+ *                      arrow (default), cube, sphere, cylinder, linelist,
+ *                      linestrip, points
  * @param p           stamped pose to define location and frame of marker
  * @param scale       scale of the marker; see visualization_msgs::Marker
  *                      documentation for details on the parameters
@@ -107,6 +108,10 @@ void CobotSim::initVizMarker(visualization_msgs::Marker& vizMarker, string ns,
     vizMarker.type = visualization_msgs::Marker::CYLINDER;
   } else if (type == "linelist") {
     vizMarker.type = visualization_msgs::Marker::LINE_LIST;
+  } else if (type == "linestrip") {
+    vizMarker.type = visualization_msgs::Marker::LINE_STRIP;
+  } else if (type == "points") {
+    vizMarker.type = visualization_msgs::Marker::POINTS;
   } else {
     vizMarker.type = visualization_msgs::Marker::ARROW;
   }
