@@ -84,6 +84,9 @@ class CobotSim{
   float curAngle;
 
   double tLastCmd;
+
+  static const float DT;
+
 private:
   void initVizMarker(visualization_msgs::Marker& vizMarker, string ns, int id, string type, geometry_msgs::PoseStamped p, geometry_msgs::Point32 scale, double duration, vector<float> color);
   void initCobotSimVizMarkers();

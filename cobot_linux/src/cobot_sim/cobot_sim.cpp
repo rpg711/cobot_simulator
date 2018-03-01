@@ -27,6 +27,7 @@ const double CobotSim::robotHeight = 0.36;
 const float CobotSim::startX = -7.5;
 const float CobotSim::startY = 1.0;
 const float CobotSim::startAngle = 0.0;
+const float CobotSim::DT = 0.05;
 
 CobotSim::CobotSim() {
   w0.heading(RAD(45.0));
@@ -219,7 +220,7 @@ void CobotSim::cobotDriveCallback(const cobot_msgs::CobotDriveMsgConstPtr& msg) 
     return;
   }
 
-  double dt = GetTimeSec() - tLastCmd;
+  double dt = DT;
   double desiredTransSpeed = msg->v;
   double desiredRotSpeed = msg->w;
 
