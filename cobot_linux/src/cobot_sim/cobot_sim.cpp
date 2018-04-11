@@ -42,11 +42,16 @@ CobotSim::~CobotSim() { }
 void CobotSim::init(ros::NodeHandle& n) {
   scanDataMsg.header.seq = 0;
   scanDataMsg.header.frame_id = "base_laser";
-  scanDataMsg.angle_min = RAD(-135.0);
-  scanDataMsg.angle_max = RAD(135.0);
-  scanDataMsg.range_min = 0.02;
+  // scanDataMsg.angle_min = RAD(-135.0);
+  // scanDataMsg.angle_max = RAD(135.0);
+  // scanDataMsg.range_min = 0.02;
+  // scanDataMsg.range_max = 4.0;
+  // scanDataMsg.angle_increment = RAD(360.0)/1024.0;
+  scanDataMsg.angle_min = RAD(-28.0);
+  scanDataMsg.angle_max = RAD(28.0);
+  scanDataMsg.range_min = 0.8;
   scanDataMsg.range_max = 4.0;
-  scanDataMsg.angle_increment = RAD(360.0)/1024.0;
+  scanDataMsg.angle_increment = RAD(1.0);
   scanDataMsg.intensities.clear();
   scanDataMsg.time_increment = 0.0;
   scanDataMsg.scan_time = 0.05;
@@ -312,7 +317,8 @@ void CobotSim::publishLaser() {
   vector2f laserLoc(0.145,0.0);
   // ROS_INFO("curLoc: (%4.3f, %4.3f)", curLoc.x, curLoc.y);
   laserLoc = curLoc + laserLoc.rotate(curAngle);
-  vector<float> ranges = maps[curMapIdx].getRayCast(laserLoc,curAngle,RAD(360.0)/1024.0,769,0.02,4.0);
+  //vector<float> ranges = maps[curMapIdx].getRayCast(laserLoc,curAngle,RAD(360.0)/1024.0,769,0.02,4.0);
+  vector<float> ranges = maps[curMapIdx].getRayCast(laserLoc,curAngle,RAD(1.0),57,0.8,4.0);
   scanDataMsg.ranges.resize(ranges.size());
   for(int i=0; i<int(ranges.size()); i++) {
     scanDataMsg.ranges[i] = ranges[i];
